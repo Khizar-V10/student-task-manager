@@ -1,6 +1,27 @@
 // Student Task Manager
-// Task data is stored in this array.
-let tasks = [];
+// Task data is stored in this array and saved in localStorage
+// so tasks are not lost when the page is refreshed.
+const STORAGE_KEY = "studentTasks";
+let tasks = loadTasks();
+
+// Load saved tasks from localStorage
+function loadTasks() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+// Save tasks to localStorage
+function saveTasks() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  } catch (error) {
+    console.warn("Could not save tasks", error);
+  }
+}
 
 const taskForm = document.getElementById("task-form");
 const titleInput = document.getElementById("task-title");
@@ -9,6 +30,7 @@ const taskList = document.getElementById("task-list");
 
 // Display all tasks in the list
 function renderTasks() {
+  saveTasks();
   taskList.innerHTML = "";
 
   if (tasks.length === 0) {
