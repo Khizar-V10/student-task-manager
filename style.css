@@ -101,6 +101,10 @@ h2 {
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
 
+#search-input {
+  margin-bottom: 14px;
+}
+
 .task-form textarea {
   resize: vertical;
 }
