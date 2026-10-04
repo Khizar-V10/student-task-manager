@@ -27,6 +27,7 @@ const taskForm = document.getElementById("task-form");
 const titleInput = document.getElementById("task-title");
 const descInput = document.getElementById("task-description");
 const taskList = document.getElementById("task-list");
+const searchInput = document.getElementById("search-input");
 
 // Display all tasks in the list
 function renderTasks() {
@@ -38,7 +39,19 @@ function renderTasks() {
     return;
   }
 
-  tasks.forEach(function (task) {
+  // Filter tasks by the search text (case-insensitive)
+  const query = searchInput.value.trim().toLowerCase();
+  const visibleTasks = tasks.filter(function (task) {
+    return task.title.toLowerCase().includes(query) ||
+      task.description.toLowerCase().includes(query);
+  });
+
+  if (visibleTasks.length === 0) {
+    taskList.innerHTML = '<li class="empty">No tasks match your search.</li>';
+    return;
+  }
+
+  visibleTasks.forEach(function (task) {
     const li = document.createElement("li");
     li.className = task.completed ? "task-item completed" : "task-item";
     li.innerHTML =
@@ -106,6 +119,9 @@ taskForm.addEventListener("submit", function (event) {
   taskForm.reset();
   titleInput.focus();
 });
+
+// Update the list live while the user types in the search box
+searchInput.addEventListener("input", renderTasks);
 
 renderTasks();
 console.log("Student Task Manager loaded");
