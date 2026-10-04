@@ -202,6 +202,13 @@ button:active {
   text-decoration: line-through;
 }
 
+/* Complete + Delete buttons side by side */
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 /* ---------- Responsive design (mobile) ---------- */
 @media (max-width: 600px) {
   header h1 {
@@ -215,6 +222,10 @@ button:active {
   .task-item {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .task-actions {
+    width: 100%;
   }
 
   #add-btn,
