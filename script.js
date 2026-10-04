@@ -40,16 +40,24 @@ function renderTasks() {
 
   tasks.forEach(function (task) {
     const li = document.createElement("li");
-    li.className = "task-item";
+    li.className = task.completed ? "task-item completed" : "task-item";
     li.innerHTML =
       '<div class="task-text">' +
         '<h3 class="task-title"></h3>' +
         '<p class="task-desc"></p>' +
       '</div>' +
-      '<button class="delete-btn">Delete</button>';
+      '<div class="task-actions">' +
+        '<button class="complete-btn"></button>' +
+        '<button class="delete-btn">Delete</button>' +
+      '</div>';
 
     li.querySelector(".task-title").textContent = task.title;
     li.querySelector(".task-desc").textContent = task.description;
+    const completeBtn = li.querySelector(".complete-btn");
+    completeBtn.textContent = task.completed ? "Undo" : "Complete";
+    completeBtn.addEventListener("click", function () {
+      toggleTask(task.id);
+    });
     li.querySelector(".delete-btn").addEventListener("click", function () {
       deleteTask(task.id);
     });
@@ -73,6 +81,16 @@ function addTask(title, description) {
 function deleteTask(id) {
   tasks = tasks.filter(function (task) {
     return task.id !== id;
+  });
+  renderTasks();
+}
+
+// Mark a task as completed (or undo it)
+function toggleTask(id) {
+  tasks.forEach(function (task) {
+    if (task.id === id) {
+      task.completed = !task.completed;
+    }
   });
   renderTasks();
 }
